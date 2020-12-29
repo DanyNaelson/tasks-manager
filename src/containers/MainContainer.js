@@ -13,7 +13,9 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(TodoActions, dispatch)
 })
 
-
+/**
+ * Redux connection
+ */
 export default connect(
   mapStateToProps,
   mapDispatchToProps

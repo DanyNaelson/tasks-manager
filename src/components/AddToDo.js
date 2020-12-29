@@ -7,6 +7,10 @@ import ToDoForm from './ToDoForm';
 const AddToDo = () => {
     const [showToDoForm, setShowToDoForm] = useState(false);
 
+    /**
+     * Show todo form
+     * @param {Boolean} show 
+     */
     const showForm = show => setShowToDoForm(show)
 
     return (

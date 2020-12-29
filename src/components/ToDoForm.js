@@ -5,6 +5,9 @@ import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions';
 import { connect } from 'react-redux';
 
+/**
+ * Component styles (CSS-in-JS)
+ */
 const styles = {
     checkIcon: {
         color: '#0f0',
@@ -25,6 +28,9 @@ const ToDoForm = ({ showForm, actions }) => {
     const [minutes, setMinutes] = useState("0")
     const [seconds, setSeconds] = useState("0")
 
+    /**
+     * Confirm creation of the task to the store
+     */
     const saveTodo = () => {
         actions.addTodo(taskName, `${hours}:${timeFormat(minutes)}:${timeFormat(seconds)}`)
         setTaskName("")
@@ -34,6 +40,10 @@ const ToDoForm = ({ showForm, actions }) => {
         showForm(false)
     }
 
+    /**
+     * Convert minutes and seconds to string format
+     * @param {String} time 
+     */
     const timeFormat = time => {
         if(time.length === 1){
             time = `0${time}`
@@ -42,6 +52,10 @@ const ToDoForm = ({ showForm, actions }) => {
         return time
     }
 
+    /**
+     * Change hours value to the state
+     * @param {*} event 
+     */
     const changeSelectHours= (event) => {
         if(event.target.value === "2"){
             setMinutes("0")
@@ -50,10 +64,18 @@ const ToDoForm = ({ showForm, actions }) => {
         setHours(event.target.value) 
     }
 
+    /**
+     * Change minutes value to the state
+     * @param {*} event 
+     */
     const changeSelectMinutes= (event) => { 
         setMinutes(event.target.value); 
     }
 
+    /**
+     * Change seconds value to the state
+     * @param {*} event 
+     */
     const changeSelectSeconds= (event) => { 
         setSeconds(event.target.value); 
     }

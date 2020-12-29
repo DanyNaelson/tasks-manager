@@ -5,12 +5,19 @@ import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions';
 import { connect } from 'react-redux';
 
+/**
+ * Component styles (CSS-in-JS)
+ */
 const styles = {
     selectForm: {
         width: 60
     }
 }
 
+/**
+ * Divide duration to get hours, minutes and seconds
+ * @param {String} duration 
+ */
 const durationSplit = duration => {
     const durationSplit = duration.split(":")
     const todoHours = durationSplit[0]
@@ -28,6 +35,10 @@ const TodoItem = ({ todo, actions }) => {
     const [seconds, setSeconds] = useState(todoSeconds ? todoSeconds : "0")
     const [editMode, setEditMode] = useState(false)
 
+    /**
+     * Convert minutes and seconds to string format
+     * @param {String} time 
+     */
     const timeFormat = time => {
         if(time.length === 1){
             time = `0${time}`
@@ -36,6 +47,10 @@ const TodoItem = ({ todo, actions }) => {
         return time
     }
 
+    /**
+     * Change hours value to the state
+     * @param {*} event 
+     */
     const changeSelectHours= (event) => {
         if(event.target.value === "2"){
             setMinutes("0")
@@ -44,14 +59,25 @@ const TodoItem = ({ todo, actions }) => {
         setHours(event.target.value) 
     }
 
+    /**
+     * Change minutes value to the state
+     * @param {*} event 
+     */
     const changeSelectMinutes= (event) => { 
         setMinutes(event.target.value); 
     }
 
+    /**
+     * Change seconds value to the state
+     * @param {*} event 
+     */
     const changeSelectSeconds= (event) => { 
         setSeconds(event.target.value); 
     }
 
+    /**
+     * Confirm edition of the task to the store
+     */
     const editTodo = () => {
         actions.editTodo(todo.id, taskName, `${hours}:${timeFormat(minutes)}:${timeFormat(seconds)}`)
         setEditMode(false)
@@ -176,7 +202,9 @@ const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(TodoActions, dispatch)
 })
 
-
+/**
+ * Redux connection
+ */
 export default connect(
     mapStateToProps,
     mapDispatchToProps

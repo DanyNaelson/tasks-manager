@@ -6,6 +6,7 @@ export const addTodo = (taskName, initialDuration) => ({
     initialDuration,
     remainingDuration: initialDuration
 })
+
 export const editTodo = (taskId, taskName, initialDuration) => ({
     type: types.EDIT_TODO,
     id: taskId,
