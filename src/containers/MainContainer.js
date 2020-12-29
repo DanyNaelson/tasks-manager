@@ -1,14 +1,20 @@
-import React from 'react';
-import AddToDo from '../components/AddToDo';
-import ToDoList from '../components/ToDoList';
+import { connect } from 'react-redux'
+import * as TodoActions from '../actions'
+import { bindActionCreators } from 'redux'
+import MainComponent from '../components/MainComponent'
 
-const MainContainer = () => {
-    return (
-        <div>
-            <AddToDo />
-            <ToDoList />
-        </div>
-    );
-};
 
-export default MainContainer;
+const mapStateToProps = state => ({
+  todos: state.todos
+})
+
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(TodoActions, dispatch)
+})
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainComponent)
