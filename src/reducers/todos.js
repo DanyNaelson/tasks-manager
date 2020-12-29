@@ -1,24 +1,36 @@
 import {
-    ADD_TODO
-  } from '../constants/ActionTypes'
+    ADD_TODO,
+    EDIT_TODO
+} from '../constants/ActionTypes'
   
-  const initialState = []
-  
-  export default function todos(state = initialState, action) {
-    switch (action.type) {
-      case ADD_TODO:
-        return [
-          ...state,
-          {
-            id: state.length + 1,
-            status: "UNINITIATED",
+const initialState = []
+
+export default function todos(state = initialState, action) {
+  switch (action.type) {
+    case ADD_TODO:
+      return [
+        ...state,
+        {
+          id: state.length + 1,
+          status: "UNINITIATED",
+          taskName: action.taskName,
+          initialDuration: action.initialDuration,
+          remainingDuration: action.remainingDuration
+        }
+      ]
+
+    case EDIT_TODO:
+      return state.map(todo =>
+        todo.id === action.id ?
+          { ...todo, 
             taskName: action.taskName,
             initialDuration: action.initialDuration,
             remainingDuration: action.remainingDuration
-          }
-        ]
-  
-      default:
-        return state
-    }
+          } :
+          todo
+      )
+
+    default:
+      return state
   }
+}
