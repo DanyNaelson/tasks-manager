@@ -4,7 +4,7 @@ import TodoItem from './TodoItem';
 
 const ToDoList = ({ todos }) => {
     return (
-        <Table striped bordered hover size="sm">
+        <Table striped bordered hover size="sm" responsive>
             <thead>
                 <tr>
                     <th>#</th>

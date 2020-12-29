@@ -90,6 +90,13 @@ const TodoItem = ({ todo, actions }) => {
         actions.deleteTodo(todo.id)
     }
 
+    /**
+     * Complete task
+     */
+    const completeTodo = () => {
+        actions.completeTodo(todo.id)
+    }
+
     return (
         <tr>
             <td>{todo.id}</td>
@@ -140,7 +147,7 @@ const TodoItem = ({ todo, actions }) => {
                         </Col>
                         <Col>
                             <Form.Group controlId="exampleForm.seconds">
-                                <Form.Label>Minutes</Form.Label>
+                                <Form.Label>Seconds</Form.Label>
                                 <Form.Control
                                     style={styles.selectForm}
                                     as="select"
@@ -162,6 +169,7 @@ const TodoItem = ({ todo, actions }) => {
             </td>
             <td>{todo.remainingDuration}</td>
             <td>{todo.status}</td>
+        {todo.status !== 'COMPLETED' &&
             <td>
             {!editMode &&
                 <Button variant="primary">
@@ -170,7 +178,9 @@ const TodoItem = ({ todo, actions }) => {
                 </Button>
             }
             {!editMode &&
-                <Button variant="success">
+                <Button variant="success"
+                    onClick={() => completeTodo()}
+                >
                     <CheckCircleFill/>
                     Complete
                 </Button>
@@ -184,7 +194,6 @@ const TodoItem = ({ todo, actions }) => {
                 </Button> :
                 <Button variant="info" onClick={() => setEditMode(true)}>
                     <PencilFill/>
-                    Edit
                 </Button>
             }
             {editMode ?
@@ -194,10 +203,10 @@ const TodoItem = ({ todo, actions }) => {
                 </Button>:
                 <Button variant="danger" onClick={() => deleteTodo()}>
                     <Trash2Fill/>
-                    Delete
                 </Button>
             }
             </td>
+        }
         </tr>
     );
 };

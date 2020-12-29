@@ -14,21 +14,23 @@ const AddToDo = () => {
     const showForm = show => setShowToDoForm(show)
 
     return (
-        <Row className="justify-content-md-center">
-            <CSSTransition in={showToDoForm} timeout={500} classNames="animatedNode">
-            {showToDoForm ?
-                <ToDoForm showForm={showForm}/>
-                :
-                <Row>
-                    <Col>
-                        <Button variant="primary" onClick={() => showForm(true)}>
-                            <PlusCircleFill/>
-                            Add task
-                        </Button>
-                    </Col>
-                </Row>
-            }
-            </CSSTransition>
+        <Row>
+            <Col>
+                <CSSTransition in={showToDoForm} timeout={500} classNames="animatedNode">
+                {showToDoForm ?
+                    <ToDoForm showForm={showForm}/>
+                    :
+                    <Row>
+                        <Col>
+                            <Button variant="primary" onClick={() => showForm(true)}>
+                                <PlusCircleFill/>
+                                Add task
+                            </Button>
+                        </Col>
+                    </Row>
+                }
+                </CSSTransition>
+            </Col>
         </Row>
     );
 };

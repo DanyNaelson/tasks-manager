@@ -17,3 +17,7 @@ export const editTodo = (taskId, taskName, initialDuration) => ({
 export const deleteTodo = id => ({
     type: types.DELETE_TODO, id
 })
+
+export const completeTodo = id => ({
+    type: types.COMPLETE_TODO, id
+})

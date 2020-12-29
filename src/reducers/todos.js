@@ -1,7 +1,8 @@
 import {
     ADD_TODO,
     EDIT_TODO,
-    DELETE_TODO
+    DELETE_TODO,
+    COMPLETE_TODO
 } from '../constants/ActionTypes'
   
 const initialState = []
@@ -34,6 +35,15 @@ export default function todos(state = initialState, action) {
     case DELETE_TODO:
       return state.filter(todo =>
         todo.id !== action.id
+      )
+    
+    case COMPLETE_TODO:
+      return state.map(todo =>
+        todo.id === action.id ?
+          { ...todo, 
+            status: "COMPLETED"
+          } :
+          todo
       )
 
     default:

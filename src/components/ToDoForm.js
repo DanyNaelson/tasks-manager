@@ -119,7 +119,7 @@ const ToDoForm = ({ showForm, actions }) => {
                                 </Col>
                                 <Col>
                                     <Form.Group controlId="exampleForm.seconds">
-                                        <Form.Label>Minutes</Form.Label>
+                                        <Form.Label>Seconds</Form.Label>
                                         <Form.Control
                                             style={styles.selectForm}
                                             as="select"
@@ -142,13 +142,11 @@ const ToDoForm = ({ showForm, actions }) => {
                             disabled={taskName === "" || (hours === "0" && minutes === "0" && seconds === "0")}
                         >
                             <CheckCircleFill/>
-                            Save
                         </Button>
                         <Button variant="danger"
                             onClick={() => showForm(false)}
                         >
                             <XCircleFill/>
-                            Cancel
                         </Button>
                     </Col>
                 </Row>
