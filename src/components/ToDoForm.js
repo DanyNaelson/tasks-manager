@@ -1,5 +1,5 @@
-import { Col, Form, Row } from 'react-bootstrap';
-import { Check2Circle, XCircleFill } from 'react-bootstrap-icons';
+import { Col, Form, Row, Button } from 'react-bootstrap';
+import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions';
@@ -9,14 +9,6 @@ import { connect } from 'react-redux';
  * Component styles (CSS-in-JS)
  */
 const styles = {
-    checkIcon: {
-        color: '#0f0',
-        cursor: 'pointer'
-    },
-    closeIcon: {
-        color: '#f00',
-        cursor: 'pointer'
-    },
     selectForm: {
         width: 60
     }
@@ -145,14 +137,19 @@ const ToDoForm = ({ showForm, actions }) => {
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Check2Circle
-                            style={styles.checkIcon}
+                        <Button variant="success"
                             onClick={() => saveTodo()}
-                        />
-                        <XCircleFill
-                            style={styles.closeIcon}
+                            disabled={taskName === "" || (hours === "0" && minutes === "0" && seconds === "0")}
+                        >
+                            <CheckCircleFill/>
+                            Save
+                        </Button>
+                        <Button variant="danger"
                             onClick={() => showForm(false)}
-                        />
+                        >
+                            <XCircleFill/>
+                            Cancel
+                        </Button>
                     </Col>
                 </Row>
             </Form>

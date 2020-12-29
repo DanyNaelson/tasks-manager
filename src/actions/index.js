@@ -13,3 +13,7 @@ export const editTodo = (taskId, taskName, initialDuration) => ({
     taskName, initialDuration,
     remainingDuration: initialDuration
 })
+
+export const deleteTodo = id => ({
+    type: types.DELETE_TODO, id
+})

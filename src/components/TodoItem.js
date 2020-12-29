@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { Check2Circle, PencilFill, PlayCircleFill, Trash2Fill, XCircleFill } from 'react-bootstrap-icons';
+import { CheckCircleFill, PencilFill, PlayCircleFill, Trash2Fill, XCircleFill } from 'react-bootstrap-icons';
 import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions';
 import { connect } from 'react-redux';
@@ -81,6 +81,13 @@ const TodoItem = ({ todo, actions }) => {
     const editTodo = () => {
         actions.editTodo(todo.id, taskName, `${hours}:${timeFormat(minutes)}:${timeFormat(seconds)}`)
         setEditMode(false)
+    }
+
+    /**
+     * Delete task to the store
+     */
+    const deleteTodo = () => {
+        actions.deleteTodo(todo.id)
     }
 
     return (
@@ -164,13 +171,15 @@ const TodoItem = ({ todo, actions }) => {
             }
             {!editMode &&
                 <Button variant="success">
-                    <Check2Circle/>
+                    <CheckCircleFill/>
                     Complete
                 </Button>
             }
             {editMode ?
-                <Button variant="success" onClick={() => editTodo()}>
-                    <Check2Circle/>
+                <Button variant="success" onClick={() => editTodo()}
+                    disabled={taskName === "" || (hours === "0" && minutes === "0" && seconds === "0")}
+                >
+                    <CheckCircleFill/>
                     Confirm
                 </Button> :
                 <Button variant="info" onClick={() => setEditMode(true)}>
@@ -183,7 +192,7 @@ const TodoItem = ({ todo, actions }) => {
                     <XCircleFill/>
                     Cancel
                 </Button>:
-                <Button variant="danger">
+                <Button variant="danger" onClick={() => deleteTodo()}>
                     <Trash2Fill/>
                     Delete
                 </Button>
