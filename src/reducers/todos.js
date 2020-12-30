@@ -2,7 +2,10 @@ import {
     ADD_TODO,
     EDIT_TODO,
     DELETE_TODO,
-    COMPLETE_TODO
+    COMPLETE_TODO,
+    START_TODO,
+    PAUSE_TODO,
+    CHANGE_REMAINING
 } from '../constants/ActionTypes'
   
 const initialState = []
@@ -42,6 +45,33 @@ export default function todos(state = initialState, action) {
         todo.id === action.id ?
           { ...todo, 
             status: "COMPLETED"
+          } :
+          todo
+      )
+
+    case START_TODO:
+      return state.map(todo =>
+        todo.id === action.id ?
+          { ...todo, 
+            status: "IN PROGRESS"
+          } :
+          todo
+      )
+
+    case PAUSE_TODO:
+      return state.map(todo =>
+        todo.id === action.id ?
+          { ...todo, 
+            status: "PAUSED"
+          } :
+          todo
+      )
+    
+    case CHANGE_REMAINING:
+      return state.map(todo =>
+        todo.id === action.id ?
+          { ...todo, 
+            remainingDuration: action.remainingDuration
           } :
           todo
       )

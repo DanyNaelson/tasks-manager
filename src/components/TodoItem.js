@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { CheckCircleFill, PencilFill, PlayCircleFill, Trash2Fill, XCircleFill } from 'react-bootstrap-icons';
+import { CheckCircleFill, PauseCircleFill, PencilFill, PlayCircleFill, Trash2Fill, XCircleFill } from 'react-bootstrap-icons';
 import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 /**
  * Component styles (CSS-in-JS)
@@ -34,6 +35,30 @@ const TodoItem = ({ todo, actions }) => {
     const [minutes, setMinutes] = useState(todoMinutes ? todoMinutes : "0")
     const [seconds, setSeconds] = useState(todoSeconds ? todoSeconds : "0")
     const [editMode, setEditMode] = useState(false)
+    const [isActive, setIsActive] = useState(false)
+    const [durationTime, setRemainingDuration] = useState(moment.duration(todo.remainingDuration))
+
+    useEffect(() => {
+        let intervalId;
+
+        if (todo.status === 'IN PROGRESS' && !isActive){
+            setIsActive(true)
+        }
+        
+        if (isActive) {
+          intervalId = setInterval(() => {
+            if (durationTime.as('seconds') > 0) {
+                setRemainingDuration(durationTime.subtract(1, 'second'))
+                actions.editRemaining(todo.id, `${durationTime.get('hours')}:${timeFormat(durationTime.get('minutes'))}:${timeFormat(durationTime.get('seconds'))}`)
+            } else {
+                setIsActive(false)
+                actions.completeTodo(todo.id)
+            }
+          }, 1000)
+        }
+    
+        return () => clearInterval(intervalId);
+      })
 
     /**
      * Convert minutes and seconds to string format
@@ -95,6 +120,22 @@ const TodoItem = ({ todo, actions }) => {
      */
     const completeTodo = () => {
         actions.completeTodo(todo.id)
+    }
+
+    /**
+     * Start task
+     */
+    const startTask = () => {
+        actions.startTodo(todo.id)
+        setIsActive(true)
+    }
+
+    /**
+     * Pause task
+     */
+    const pauseTask = () => {
+        actions.pauseTodo(todo.id)
+        setIsActive(false)
     }
 
     return (
@@ -167,17 +208,26 @@ const TodoItem = ({ todo, actions }) => {
                 todo.initialDuration
             }
             </td>
-            <td>{todo.remainingDuration}</td>
+            <td>{`${durationTime.get('hour')}:${durationTime.get('minutes')}:${durationTime.get('seconds')}`}</td>
             <td>{todo.status}</td>
         {todo.status !== 'COMPLETED' &&
             <td>
             {!editMode &&
-                <Button variant="primary">
+                !isActive ?
+                <Button variant="primary"
+                    onClick={() => startTask()}
+                >
                     <PlayCircleFill/>
                     Start
+                </Button> :
+                <Button variant="info"
+                    onClick={() => pauseTask()}
+                >
+                    <PauseCircleFill/>
+                    Pause
                 </Button>
             }
-            {!editMode &&
+            {!editMode && todo.status !== 'IN PROGRESS' &&
                 <Button variant="success"
                     onClick={() => completeTodo()}
                 >
@@ -192,6 +242,7 @@ const TodoItem = ({ todo, actions }) => {
                     <CheckCircleFill/>
                     Confirm
                 </Button> :
+                todo.status !== 'IN PROGRESS' &&
                 <Button variant="info" onClick={() => setEditMode(true)}>
                     <PencilFill/>
                 </Button>
@@ -201,6 +252,7 @@ const TodoItem = ({ todo, actions }) => {
                     <XCircleFill/>
                     Cancel
                 </Button>:
+                todo.status !== 'IN PROGRESS' &&
                 <Button variant="danger" onClick={() => deleteTodo()}>
                     <Trash2Fill/>
                 </Button>
